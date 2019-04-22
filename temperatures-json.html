@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Ajax : JSON</title>
+<style>
+table {
+	margin: auto;
+}
+
+table, tr, th, td {
+	border: black 1px solid;
+	border-collapse: collapse;
+	text-align: left;
+}
+
+th, td {
+	width: 100px;
+}
+</style>
+</head>
+<body>
+	<h1 style="text-align: center">Average temperatures for Angers</h1>
+	<table id="tableau">
+		<tr>
+			<th>Month</th>
+			<th>Average temperature</th>
+		</tr>
+		<script>
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange= function(){
+				if(this.readyState == 4 && this.status == 200 )
+				{
+					var tab=document.getElementById('tableau');
+					var obj = JSON.parse(this.responseText);
+					for(var i=0;i<obj.length;i++)
+					{
+						var tr=document.createElement("tr");
+						var td1=document.createElement("td");
+						var td2=document.createElement("td");
+						var txt1=document.createTextNode(obj[i][0]);
+						var txt2=document.createTextNode(obj[i][1]);
+						td1.appendChild(txt1);
+						td2.appendChild(txt2);
+						tr.appendChild(td1);
+						tr.appendChild(td2);
+						tab.appendChild(tr);
+					}
+
+
+				}
+			}
+			xhttp.open("GET","get-temperatures.php",true);
+			xhttp.send();
+		</script>
+	</table>
+</body>
+</html>
